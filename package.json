@@ -1,10 +1,10 @@
 {
-  "name": "dillinger",
+  "name": "notesmd",
   "description": "Dillinger, the last Markdown editor you'll ever need, by yours truly, Joe McCann.",
   "version": "3.39.1",
   "author": {
-    "name": "Joe McCann",
-    "email": "joe@subprint.com"
+    "name": "Benjamin Nguyen",
+    "email": "ben85629@gmail.com"
   },
   "license": "MIT",
   "contributors": [
@@ -23,7 +23,6 @@
     "preversion": "gulp build --prod",
     "postversion": "bin/build.js",
     "build": "NODE_OPTIONS=--openssl-legacy-provider gulp build --prod",
-    "deploy": "ssh azure",
     "preinstall": "npm install --package-lock-only --ignore-scripts && npx npm-force-resolutions"
   },
   "resolutions": {
@@ -62,12 +61,10 @@
     "cookie-session": "^1.2.0",
     "debug": "^2.2.0",
     "depd": "^1.1.0",
-    "dropbox": "^3.0.5",
     "ejs": "^2.7.2",
     "errorhandler": "^1.4.2",
     "es6-promise": "^3.3.1",
     "express": "^4.18.2",
-    "googleapis": "^39.1.0",
     "graceful-fs": "^4.2.11",
     "gulp-cli": "^2.3.0",
     "gulp-gzip": "^1.4.0",

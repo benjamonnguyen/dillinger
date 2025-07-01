@@ -29,10 +29,4 @@
     width: map-get($component-widths, sidebar) + 15px;
     z-index: map-get($z-index, sidebar);
   }
-
-  &-branding {
-    width: 160px;
-    padding: 0;
-    margin: 16px auto;
-  }
 }

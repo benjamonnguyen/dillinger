@@ -6,7 +6,7 @@ const gulp = require('gulp')
 function watchTask(cb) {
   // Add watch patterns
   gulp.watch('public/scss/**/*.scss', gulp.series('sass'))
-  gulp.watch('public/js/**/*.js', gulp.series('webpack'))
+  gulp.watch('public/js/**/*.js', gulp.series('webpack:dev'))
   gulp.watch('public/**/*.html', gulp.series('critical'))
   
   // Call the callback when done

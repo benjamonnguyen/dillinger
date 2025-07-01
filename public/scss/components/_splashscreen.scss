@@ -20,6 +20,9 @@
   height: 100%;
   background-color: #373D49;
   z-index: 22;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 // -------------------------------------
 //   Scaffolding
@@ -55,10 +58,4 @@
     color: #FFF;
   }
 
-}
-
-.sp-center {
-  position: relative;
-  transform: translateY(-50%);
-  top: 50%;
 }

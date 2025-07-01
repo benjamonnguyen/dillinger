@@ -1,9 +1,7 @@
-version: '3'
 services:
-  dillinger:
-    build: .
-    container_name: dillinger
-    image: joemccann/dillinger
+  notesmd:
+    container_name: notesmd
+    image: ben85629/notesmd
     ports:
       - "9000:9000"
     environment:

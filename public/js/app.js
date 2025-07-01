@@ -44,41 +44,8 @@ window.ace = ace;  // Make ace globally available
   require('./documents/delete-modal.controller')
   require('./services/wordscount.service')
 
-  // Plugin: Bitbucket
-  require('./plugins/bitbucket/bitbucket.service')
-  require('./plugins/bitbucket/bitbucket-modal.controller')
-  require('./plugins/bitbucket/bitbucket.controller')
-
-  // Plugin: Github
-  require('./plugins/github/github.service')
-  require('./plugins/github/github-modal.controller')
-  require('./plugins/github/github.controller')
-
-  // Plugin: Dropbox
-  require('./plugins/dropbox/dropbox.service')
-  require('./plugins/dropbox/dropbox-modal.controller')
-  require('./plugins/dropbox/dropbox.controller')
-
-  // Plugin: Google Drive
-  require('./plugins/google-drive/google-drive.service')
-  require('./plugins/google-drive/google-drive-modal.controller')
-  require('./plugins/google-drive/google-drive.controller')
-
-  // Plugin: Medium
-  require('./plugins/medium/medium.service')
-  require('./plugins/medium/medium-modal.controller')
-  require('./plugins/medium/medium.controller')
-
-  // Plugin: One Drive
-  require('./plugins/one-drive/one-drive.service')
-  require('./plugins/one-drive/one-drive-modal.controller')
-  require('./plugins/one-drive/one-drive.controller')
-
   // Notifications
   require('./services/notification.service')
-
-  // Ads
-  require('./services/ads.service')
 
   // Zen Mode
   require('./zen-mode/zen-mode.controller')
@@ -97,13 +64,6 @@ window.ace = ace;  // Make ace globally available
     'diUser',
     'diZenMode',
     'diFileImport',
-    'diAds.service',
-    'plugins.bitbucket',
-    'plugins.github',
-    'plugins.dropbox',
-    'plugins.medium',
-    'plugins.googledrive',
-    'plugins.onedrive',
     'ui.bootstrap',
     'diDebounce.service'
   ])
@@ -112,11 +72,11 @@ window.ace = ace;  // Make ace globally available
   angular.bootstrap(document, ['Dillinger'])
 
   // Simple and works.
-  return jQuery(window).on('load', function () {
-    return jQuery('.splashscreen').animate({
-      opacity: 0
-    }, 150, function () {
-      return jQuery('.splashscreen').remove()
-    })
-  })
+  // return jQuery(window).on('load', function () {
+  //   return jQuery('.splashscreen').animate({
+  //     opacity: 0
+  //   }, 150, function () {
+  //     return jQuery('.splashscreen').remove()
+  //   })
+  // })
 })(window, document)

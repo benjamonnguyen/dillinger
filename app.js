@@ -21,12 +21,6 @@ const path = require('path')
 const fs = require('fs')
 const app = express()
 const core = require('./plugins/core/server.js')
-const dropbox = require('./plugins/dropbox/server.js')
-const bitbucket = require('./plugins/bitbucket/server.js')
-const github = require('./plugins/github/server.js')
-const medium = require('./plugins/medium/server.js')
-const googledrive = require('./plugins/googledrive/server.js')
-const onedrive = require('./plugins/onedrive/server.js')
 const env = process.env.NODE_ENV || 'development'
 
 require('isomorphic-fetch') /* patch global fetch for dropbox module */
@@ -74,15 +68,6 @@ app.use(cookieSession({
   keys: ['open', 'source']
 }))
 
-// Let's 301 redirect to simply dillinger.io
-app.use(function forceLiveDomain (req, res, next) {
-  const host = req.get('Host')
-  if (host === 'www.dillinger.io') {
-    return res.redirect(301, 'http://dillinger.io' + req.originalUrl)
-  }
-  return next()
-})
-
 // Support for HTTP/2 Server Push
 app.use(netjet({
   cache: {
@@ -129,12 +114,6 @@ app.get('/privacy', routes.privacy)
 app.get('/not-implemented', routes.not_implemented)
 
 app.use(core)
-app.use(dropbox)
-app.use(bitbucket)
-app.use(github)
-app.use(medium)
-app.use(googledrive)
-app.use(onedrive)
 
 app.listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'))
