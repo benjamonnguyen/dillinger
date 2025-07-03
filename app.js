@@ -15,7 +15,6 @@ const cookieSession = require('cookie-session')
 const express = require('express')
 const netjet = require('netjet')
 const routes = require('./routes')
-const serveStatic = require('serve-static')
 const errorHandler = require('errorhandler')
 const path = require('path')
 const fs = require('fs')
@@ -23,16 +22,12 @@ const app = express()
 const core = require('./plugins/core/server.js')
 const env = process.env.NODE_ENV || 'development'
 
-require('isomorphic-fetch') /* patch global fetch for dropbox module */
-
-app.set('port', process.env.PORT || 8080)
+process.env.PORT = process.env.PORT || config.development.port
+app.set('port', process.env.PORT)
 app.set('bind-address', process.env.BIND_ADDRESS || 'localhost')
 
 app.set('views', path.join(__dirname, '/views'))
 app.set('view engine', 'ejs')
-
-// Required to trust GCP proxy for the x-forwarded-by heading
-app.set('trust proxy', true)
 
 // May not need to use favicon if using nginx for serving
 // static assets. Just comment it out below.
@@ -87,23 +82,12 @@ app.locals.title = config.title || 'Dillinger.'
 app.locals.description = config.description || 'Dillinger, the last Markdown Editor, ever.'
 app.locals.dillinger_version = require('./package.json').version
 
-if (config.googleWebmasterMeta) {
-  app.locals.googleWebmasterMeta = config.googleWebmasterMeta
-}
-
-if (config.keywords) {
-  app.locals.keywords = config.keywords
-}
-
 if (config.author) {
   app.locals.author = config.author
 }
 
 app.locals.node_version = process.version.replace('v', '')
 app.locals.env = process.env.NODE_ENV
-
-// At startup time so sync is ok.
-app.locals.readme = fs.readFileSync(path.resolve(__dirname, './README.md'), 'utf-8')
 
 if (env === 'development') {
   app.use(errorHandler())
@@ -112,6 +96,19 @@ if (env === 'development') {
 app.get('/', routes.index)
 app.get('/privacy', routes.privacy)
 app.get('/not-implemented', routes.not_implemented)
+app.get('/data/:fileName', (req, res) => {
+  fs.readFile(
+    path.join(__dirname, 'data', req.params.fileName),
+    (err, data) => {
+      if (err) {
+        if (err.errno === -2) {
+          res.sendStatus(404)
+        }
+      } else {
+        res.send(data)
+      }
+    })
+})
 
 app.use(core)
 

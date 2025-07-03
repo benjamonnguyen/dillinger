@@ -10,8 +10,8 @@ module.exports =
 
     angular.extend(this, {
       id: new Date().getTime(),
-      title: 'Untitled Document.md',
-      body: require('raw!../../../README.md')
+      title: 'Untitled Document.md', // TODO unique title
+      body: ''
     });
 
     return angular.extend(this, sheetData);

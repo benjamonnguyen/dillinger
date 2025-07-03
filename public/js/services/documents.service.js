@@ -4,14 +4,13 @@
  *    Documents Service.
  */
 
-module.exports =
+export default
   angular
     .module('diDocuments.service', ['diDocuments.sheet'])
     .factory('documentsService', function ($rootScope, $http, Sheet, diNotify) {
       var service = {
         currentDocument: {},
         files: [],
-
         getItem: getItem,
         getItemByIndex: getItemByIndex,
         getItemById: getItemById,
@@ -28,9 +27,6 @@ module.exports =
         getCurrentDocumentTitle: getCurrentDocumentTitle,
         setCurrentDocumentBody: setCurrentDocumentBody,
         getCurrentDocumentBody: getCurrentDocumentBody,
-        setCurrentDocumentId: setCurrentDocumentId,
-        setCurrentDocumentSHA: setCurrentDocumentSHA,
-        getCurrentDocumentSHA: getCurrentDocumentSHA,
         setCurrentCursorValue: setCurrentCursorValue,
         save: save,
         init: init
@@ -157,35 +153,6 @@ module.exports =
         service.currentDocument.title = title
         return title
       }
-
-      /**
-     *    Update the current document CI trigger setting.
-     *
-     *    @param  {Boolean}  skipCI  Weather or not to skip CI
-     */
-      // function setCurrentDocumentCI (skipCI) {
-      //   service.currentDocument.skipCI = skipCI
-      //   return skipCI
-      // }
-
-      /**
-     *    Update the current document ID.
-     *
-     *    @param  {Boolean}  fileId  DocumentID
-     */
-      function setCurrentDocumentId (fileId) {
-        service.currentDocument.fileId = fileId
-        return fileId
-      }
-      /**
-     *    Update the current document Github Commit Message
-     *
-     *    @param  {String}  githubCommitMessage  Github Commit Message
-     */
-      // function setCurrentDocumentGithubCommitMessage (message) {
-      //   service.currentDocument.githubCommitMessage = message
-      //   return message
-      // }
 
       /**
      *    Get the current document title.
@@ -474,37 +441,23 @@ module.exports =
         reader.readAsDataURL(file)
       }
 
-      /**
-     *    Update the current document SHA.
-     *
-     *    @param  {String}  sha  The document SHA.
-     */
-      function setCurrentDocumentSHA (sha) {
-        service.currentDocument.github.sha = sha
-        return sha
-      }
-
-      /**
-     *    Get the current document SHA.
-     */
-      function getCurrentDocumentSHA () {
-        return service.currentDocument.github.sha
-      }
-
-      function save (manual) {
+      function save (doc, manual) {
         if (!angular.isDefined(manual)) {
           manual = false
         }
 
         if (manual) {
-          diNotify('Documents Saved.')
+          diNotify('Documents Saved!')
         }
 
-        window.localStorage.setItem('files', angular.toJson(service.files))
-        return window.localStorage.setItem('currentDocument', angular.toJson(service.currentDocument))
+        return window.localStorage.setItem('currentDocument', angular.toJson(doc));
       }
 
       function init () {
+        fetch('/data/test.md')
+          .then(res => res.text())
+          .then(console.log)
+
         var item, _ref
         service.files = angular.fromJson(window.localStorage.getItem('files')) || []
         service.currentDocument = angular.fromJson(window.localStorage.getItem('currentDocument')) || {}
@@ -512,7 +465,7 @@ module.exports =
           item = this.createItem()
           this.addItem(item)
           this.setCurrentDocument(item)
-          return this.save()
+          return this.save(item)
         }
       }
     }) // end factory

@@ -70,13 +70,4 @@ window.ace = ace;  // Make ace globally available
 
   // Run!
   angular.bootstrap(document, ['Dillinger'])
-
-  // Simple and works.
-  // return jQuery(window).on('load', function () {
-  //   return jQuery('.splashscreen').animate({
-  //     opacity: 0
-  //   }, 150, function () {
-  //     return jQuery('.splashscreen').remove()
-  //   })
-  // })
 })(window, document)

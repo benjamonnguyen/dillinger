@@ -20,7 +20,7 @@ module.exports =
   };
 
   $scope.profile        = userService.profile;
-  $scope.saveDocument   = save;
+  $scope.saveDocument   = saveCurrentDocument;
   $scope.createDocument = createDocument;
   $scope.removeDocument = removeDocument;
   $scope.selectDocument = selectDocument;
@@ -30,15 +30,15 @@ module.exports =
   $rootScope.editor.on('change', debounce(doAutoSave, 2000));
   $rootScope.$on('autosave', doAutoSave);
 
-  function save(manuel) {
+  function saveCurrentDocument(manual) {
     var item;
 
     item      = documentsService.getCurrentDocument();
     item.body = $rootScope.editor.getSession().getValue();
 
-    documentsService.setCurrentDocument(item);
+    // TODO eval documentsService.setCurrentDocument(item);
 
-    return documentsService.save(manuel);
+    return documentsService.save(item, manual);
   }
 
   function initDocument() {
@@ -51,6 +51,8 @@ module.exports =
   }
 
   function selectDocument(item) {
+    saveCurrentDocument();  // TODO
+
     item = documentsService.getItem(item);
     documentsService.setCurrentDocument(item);
 
@@ -87,7 +89,7 @@ module.exports =
 
   function doAutoSave() {
     if ($scope.profile.enableAutoSave) {
-      return save();
+      return saveCurrentDocument();
     }
 
     return false;

@@ -16,7 +16,7 @@ module.exports =
       'diBase.directives.previewToggle',
       'diBase.directives.preview'
     ])
-    .controller('Base', ($scope, $rootScope, userService, documentsService, adsService) => {
+    .controller('Base', ($scope, $rootScope, userService, documentsService) => {
       $scope.profile = userService.profile
       $rootScope.currentDocument = documentsService.getCurrentDocument()
       $rootScope.editor = ace.edit('editor')
@@ -62,20 +62,4 @@ module.exports =
       }
       window.addEventListener('resize', setEditorHeight)
       setEditorHeight()
-
-      // Handle ads
-      if (process.env.NODE_ENV === 'production') {
-        adsService.loadAds()
-          .then(function(data) {
-            // Ad loaded successfully
-            console.log('Ads loaded:', data);
-          })
-          .catch(function(err) {
-            // Error already handled in service
-            console.log('Failed to load ads:', err);
-          });
-      } else {
-        // Hide ads in development
-        adsService.hideAds();
-      }
     })

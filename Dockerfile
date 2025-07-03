@@ -1,7 +1,7 @@
 FROM nodesource/nsolid:latest
 
-LABEL maintainer "Joe McCann <joe@subprint.com>"
-WORKDIR /dillinger
+LABEL maintainer "Benjamin Nguyen <ben85629@gmail.com>"
+WORKDIR /app
 # Install our dependencies (libfontconfig for phantomjs)
 RUN apt-get update && DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
   bzip2 \
@@ -58,14 +58,17 @@ RUN npm install --devDependencies \
   && npm cache verify
 # Copy source over and create configs dir
 
-RUN rm -rf /configs
-RUN mkdir -p /configs
-COPY . .
+# Make user and create necessary directories
+ENV UID=1000
+ENV GID=1000
 
-RUN echo 'kernel.unprivileged_userns_clone=1' > /etc/sysctl.d/userns.conf
-RUN adduser --disabled-password --gecos '' dillinger
-RUN chown -R dillinger:dillinger public
-USER dillinger
+RUN addgroup -g $GID user && \
+  adduser -D -u $UID -G user user &&
+
+RUN mkdir -p /configs /data
+COPY ./public ./public
+RUN chown -R user:user public /data
+USER user
 
 EXPOSE 8080
 ENV NODE_ENV=production

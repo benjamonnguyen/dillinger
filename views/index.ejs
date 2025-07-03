@@ -7,7 +7,6 @@
   <title><%= title %></title>
 
   <meta name="description" content="<%= description %>">
-  <meta name="keywords" content="<%= keywords %>">
   <meta name="author" content="<%= author %>">
 
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -31,10 +30,7 @@
 
   <!-- Spiders must use meta description -->
   <meta name="robots" content="noodp, noydir">
-
-  <!-- Google Verfication -->
-  <meta name="google-site-verification" content="<%= googleWebmasterMeta %>" />
-
+  
   <!-- Viewport and mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1">
   <meta name="HandheldFriendly" content="true">
@@ -62,8 +58,6 @@
     <input type="hidden" name="preview">
   </form>
 
-  <%- include splashscreen %>
-
   <%- include dropdowns/settings %>
 
   <div class="wrapper">
@@ -81,7 +75,7 @@
     </div>
   </div>
 
-  <script src="/js/main.bundle.js" type="text/javascript" async></script>
+  <script src="/dist/app.js" type="text/javascript" async></script>
 
 </body>
 </html>

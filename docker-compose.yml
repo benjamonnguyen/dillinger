@@ -3,7 +3,9 @@ services:
     container_name: notesmd
     image: ben85629/notesmd
     ports:
-      - "9000:9000"
-    environment:
-      - "BIND_ADDRESS=0.0.0.0"
-      - "PORT=9000"
+      - '9000:8080'
+    volumes:
+      - /data:/data
+    depends_on:
+      - redis
+    restart: unless-stopped
