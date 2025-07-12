@@ -1,7 +1,22 @@
 'use strict'
 
+import angular from "angular"
+
 /**
  *    Documents Service.
+ */
+
+/**
+* @typedef {Object} Document
+* @property {string} title
+* @property {string} body
+* @property {string} path
+*/
+
+/**
+ * @typedef {Object} Metadata
+ * @property {string} hash
+ * @property {int} lastUpdatedOn
  */
 
 export default
@@ -266,6 +281,59 @@ export default
       }
 
       /**
+       * 
+       * @param { string } path
+       * @param { string } hash
+       * @returns { Promise<Document | null> }
+       */
+      async function fetchDocument(path, hash) {
+        const title = path.match(/\/([^\/]+)\.md$/);
+        try {
+          /** @type {Document[]} */
+          const localFiles = angular.fromJson(window.localStorage.getItem('files')) || [];
+          const localDocument = localFiles.find(f => f.title === title);
+          if (localDocument) {
+            const syncedDoc = synchronizeWithServer(localDocument)
+            const metadata = await fetchMetadata(path);
+            if (hash 
+          }
+
+          if (localDocument)
+          return {
+            body: res.text(),
+            title,
+          }
+        } catch (e) {
+          console.log(e);
+          return null
+        }
+      }
+
+      /**
+       * 
+       * @param { string } path 
+       * @returns { Promise<Metadata> }
+       */
+      async function fetchMetadata(path) {
+        const res = await fetch('/metadata/' + path);
+        return angular.fromJson(res.text());
+      }
+
+      /**
+       * @param {string} str
+       * @returns {string}
+       */
+      async function sha256(str) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(str);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      }
+
+      // TODO loadMetadata(path)
+
+      /**
      *    Convert HTML text to markdown.
      *
      *    @param  {text}  string  The html text to be converted
@@ -454,10 +522,6 @@ export default
       }
 
       function init () {
-        fetch('/data/test.md')
-          .then(res => res.text())
-          .then(console.log)
-
         var item, _ref
         service.files = angular.fromJson(window.localStorage.getItem('files')) || []
         service.currentDocument = angular.fromJson(window.localStorage.getItem('currentDocument')) || {}

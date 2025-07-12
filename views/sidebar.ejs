@@ -8,12 +8,20 @@
           <span>Documents</span> <span class="caret"></span></a>
 
           <ul class="documents sidebar-list" collapse="document.status.document" role="menu">
-            <%- include dropdowns/documents %>
+            <li
+              ng-repeat="document in documents track by document.id"
+              class="document"
+              ng-class="{'active': currentDocument.id === document.id}"
+              >
+              <a ng-click="selectDocument(document)">{{document.title}}</a>
+            </li>
+            <li class="add-document">
+              <a ng-click="createDocument()">TODO New Document</a>
+            </li>
           </ul>
         </li>
       </ul>
     </nav>
-    <a class="btn btn--new" ng-click="createDocument()">New Document</a>
     <div ng-controller="ImportFile as importFile">
       <a class="btn btn--new" ng-click="choose()">
         <span>Import</span>
@@ -22,6 +30,6 @@
     <a class="btn btn--save" ng-click="saveCurrentDocument(true)">Save Session</a>
     <a class="btn btn--delete"
        ng-click="removeDocument(currentDocument)"
-       ng-if="documents.length > 1">Delete Document</a>
+       ng-if="documents.length > 0">Delete Document</a>
   </div>
 </div>

@@ -4,6 +4,13 @@ This fork of joemccann/dillinger is a simplified, local-only refactor meant to b
 
 Would be cool to make local-first.
 
+## TODOs
+- [ ] paste images
+- [ ] ctrl + click links
+- [ ] fix zen
+- [ ] Math operations (plugin system)
+- [ ] Upload/download files
+
 ## _The Last Markdown Editor, Ever_
 
 [![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
